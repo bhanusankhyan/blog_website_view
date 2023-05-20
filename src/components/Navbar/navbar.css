@@ -1,0 +1,30 @@
+.nav-link-hover {
+  color: black;
+}
+
+.nav-link-hover:hover {
+  color:white;
+  background-color: black;
+}
+
+.on-hover {
+color: grey;
+border-bottom: 1px solid grey;
+}
+
+.on-hover:hover{
+  color:black;
+  border-bottom: 1px solid black;
+  -webkit-transition: color 2s ease-out;
+  -moz-transition: color 2s ease-out;
+  -o-transition: color 2s ease-out;
+  transition: color 2s ease-out;
+}
+
+.box:hover {
+  background-color: black;
+  -webkit-transition: background-color 2s ease-out;
+  -moz-transition: background-color 2s ease-out;
+  -o-transition: background-color 2s ease-out;
+  transition: background-color 2s ease-out;
+}

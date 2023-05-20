@@ -1,0 +1,8 @@
+.blog-font {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.tags:hover{
+  background-color: #dadada;
+  cursor: pointer;
+}

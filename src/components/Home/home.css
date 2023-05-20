@@ -1,0 +1,15 @@
+.blog-font {
+  font-family: 'Quicksand', sans-serif;
+}
+
+.container {
+  position: relative;
+}
+
+.bottom-left {
+  font-family: 'Quicksand', sans-serif;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  color: white;
+}
