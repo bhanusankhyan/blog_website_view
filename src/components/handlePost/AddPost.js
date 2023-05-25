@@ -6,6 +6,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Global from '../../global/variables';
 
 const AddPost = ({handleShow, handleClose, show}) => {
   // const [show, setShow] = useState(false)
@@ -79,7 +80,7 @@ const AddPost = ({handleShow, handleClose, show}) => {
         body : formData
       }
 
-      const response = await fetch('http://localhost:8000/blog/insert_blog', requestOptions)
+      const response = await fetch(`${Global.proxy}/blog/insert_blog`, requestOptions)
       const data = await response.json()
       console.log(data)
       handleClose();

@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 import loginImage from '../../images/login.jpeg'
 import './authentication.css'
 import NavBar from '../Navbar/Navbar';
-import Global from '../Global/Global';
 import {useNavigate} from 'react-router-dom';
+import Global from '../../global/variables';
 
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
       email: email,
       password: password
     }
-    const response = await fetch('http://localhost:8000/blog/login', {
+    const response = await fetch(`${Global.proxy}/blog/login`, {
       method: 'POST',
       body: JSON.stringify(data)
     })

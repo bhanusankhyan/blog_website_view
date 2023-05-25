@@ -6,6 +6,7 @@ import loginImage from '../../images/login.jpeg'
 import Alert from 'react-bootstrap/Alert';
 import NavBar from '../Navbar/Navbar';
 import { useNavigate, Navigate } from "react-router-dom";
+import Global from '../../global/variables';
 
 
 const SignUp = () => {
@@ -36,7 +37,7 @@ const SignUp = () => {
       email: email,
       password: password,
     }
-    const response = await fetch('http://localhost:8000/blog/sign_up', {
+    const response = await fetch(`${Global.proxy}/blog/sign_up`, {
       method: 'POST',
       body: JSON.stringify(data)
     })

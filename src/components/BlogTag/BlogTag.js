@@ -4,6 +4,7 @@ import './BlogTag.css'
 import BlogCard from '../Card/Card'
 import NavBar from '../Navbar/Navbar';
 import PageCount from '../Pagination/Pagination';
+import Global from '../../global/variables';
 
 
 const BlogsTag = () => {
@@ -23,7 +24,7 @@ const BlogsTag = () => {
       tag: tag,
       page: page
     }
-    const response = await fetch('http://localhost:8000/blog/blogs_tag', {
+    const response = await fetch(`${Global.proxy}/blog/blogs_tag`, {
       method: 'POST',
       body: JSON.stringify(data)
     })

@@ -3,17 +3,17 @@ import BlogCard from "../Card/Card"
 import NavBar from '../Navbar/Navbar'
 import './home.css'
 import blog1 from '../../images/image2.webp'
-import Global from '../Global/Global'
 import PageCount from '../Pagination/Pagination'
 import { useNavigate } from 'react-router-dom';
+import Global from '../../global/variables';
 
 const Home = () => {
   const [data, setData] = useState([])
   const [blog, setBlog] = useState({})
   const [page, setPage] = useState(1)
   const [pageCount, setPageCount] = useState(1)
-  console.log(data)
-
+  // console.log(process.ENV.NODE_ENV)
+  console.log(process.env.NODE_ENV)
 
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const Home = () => {
     const data = {
       page: page
     }
-    const response = await fetch('http://localhost:8000/blog/get_blogs', {
+    const response = await fetch(`${Global.proxy}/blog/get_blogs`, {
       method: 'POST',
       body: JSON.stringify(data)
 })

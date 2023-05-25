@@ -3,7 +3,6 @@ import {useState, useEffect} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import AddPost from '../handlePost/AddPost'
 import './navbar.css';
-import Global from '../Global/Global'
 import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";

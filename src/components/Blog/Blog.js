@@ -9,6 +9,7 @@ import './blog.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
+import Global from '../../global/variables';
 
 const Blog = () => {
   const params = useParams();
@@ -34,7 +35,7 @@ const Blog = () => {
       body : JSON.stringify(req_data)
     }
 
-    const response = await fetch('http://localhost:8000/blog/get_blog', requestOptions)
+    const response = await fetch(`${Global.proxy}/blog/get_blog`, requestOptions)
     const resp = await response.json()
     setData(resp)
     console.log(resp)
