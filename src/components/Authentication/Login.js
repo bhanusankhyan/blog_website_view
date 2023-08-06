@@ -40,19 +40,19 @@ const Login = () => {
 
 
   return (
-    <div style={{backgroundColor:"#f1f1f1", height:'100vh'}}>
+    <div className="screen-height"  style={{backgroundColor:"#f1f1f1", paddingBottom:'5%'}}>
     <NavBar />
     <center >
-      <div className="row" style={{width:'53.5%', margin: 'auto', marginTop:'10%'}}>
-          <div className="col-lg-6 col-md-12 col-sm-12" style={{backgroundColor:'white', paddingRight:0}}>
-          <div style={{margin:'auto', height:600, padding:50}}>
+      <div className="row" style={{width:'70%', margin: 'auto', marginTop:'10%'}}>
+          <div className="col-lg-6 col-md-12 col-sm-12" style={{backgroundColor:'white', paddingRight:0, height:600, display:'flex', alignItems:'center'}}>
+          <div style={{margin:'auto',width:'80%'}}>
               <center>
                 <h1>Welcome Back!</h1>
                 Welcome Back! Please enter your details.
                 <FloatingLabel
                 controlId="floatingInput"
                 label={"Email"}
-                className="mb-3 mt-5"
+                className="mb-3 mt-3"
               >
                 <Form.Control type="email" value={email}
                   style={{width:'100%'}}
@@ -74,14 +74,12 @@ const Login = () => {
                 isValid={password.trim() !== ""}
                 isInvalid={passwordOnClick && password.trim() === ""}/>
             </FloatingLabel>
-            <span className="hover-dark-color" style={{float:'right', cursor:'pointer', textDecoration:'underline'}}>Forgot Password</span>
-            <br />
+            <span className="hover-dark-color mb-2" style={{float:'right', cursor:'pointer', textDecoration:'underline'}}>Forgot Password</span>
             <br />
             <br />
             <div className="d-grid gap-2">
             <Button variant="secondary" onClick={handleClick} size="lg">Login</Button>
             </div>
-            <br />
             <br />
             <div >
             <p>Don't have an account? <a className="hover-dark-color" href="/signup" style={{cursor:'pointer'}}>Sign Up</a></p>
@@ -89,8 +87,8 @@ const Login = () => {
               </center>
               </div>
           </div>
-          <div className="col-lg-6 col-sm-12 col-md-12" style={{paddingLeft:'0px'}}>
-          <img src={loginImage} style={{height:600, objectFit:'scale-down'}}/>
+          <div className="col-lg-6 col-sm-12 col-md-12" style={{paddingLeft:'0px', paddingRight:0}}>
+          <img src={loginImage} style={{height:'600px', width:'100%'}}/>
           </div>
         </div>
       </center>

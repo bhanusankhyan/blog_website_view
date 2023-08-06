@@ -12,6 +12,7 @@ const Home = () => {
   const [blog, setBlog] = useState({})
   const [page, setPage] = useState(1)
   const [pageCount, setPageCount] = useState(1)
+  const [loader, setLoader] = useState(true)
   // console.log(process.ENV.NODE_ENV)
   console.log(process.env.NODE_ENV)
 
@@ -36,10 +37,12 @@ const Home = () => {
     setBlog(jsonData?.resp[0])
     // console.log(jsonData?.resp[0])
     setPageCount(jsonData?.pageCount)
+    setLoader(false)
 
   }
 
   useEffect(() => {
+    setLoader(true)
     get_blogs()
   },[page])
 
@@ -57,6 +60,14 @@ const Home = () => {
       <br />
       <br />
     </center>
+    { loader ?
+      <div className="d-flex justify-content-center" style={{marginTop:'20%'}}>
+      <div className="spinner-grow" style={{width: '3rem', height: '3rem', role:"status"}}>
+        <span className="sr-only">Loading...</span>
+      </div>
+       </div>
+       :
+    <>
     { page == 1 ?
     <div className="container">
     <img src={`data:image/png;base64,${blog?.image}`} style={{maxHeight:'1000px',width:'100%'}}/>
@@ -88,6 +99,8 @@ const Home = () => {
       <PageCount page={page} setPage = {setPage} pageCount = {pageCount}/>
       </center>
     </div>
+    </>
+    }
     </div>
   </>
   );

@@ -7,6 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 import NavBar from '../Navbar/Navbar';
 import { useNavigate, Navigate } from "react-router-dom";
 import Global from '../../global/variables';
+import './authentication.css'
 
 
 const SignUp = () => {
@@ -65,7 +66,7 @@ const SignUp = () => {
     { localStorage.getItem('user_name')?.length > 0 ?
     <Navigate to="/" />
       :
-    <div style={{backgroundColor:"#f1f1f1", height:'100vh'}}>
+    <div className="screen-height" style={{backgroundColor:"#f1f1f1", paddingBottom:'5%'}}>
     <NavBar />
     {
       inputFieldAlert &&
@@ -77,9 +78,9 @@ const SignUp = () => {
     </Alert>
     }
     <center>
-      <div className="row" style={{width:'53.5%', margin: 'auto', marginTop:'10%'}}>
-          <div className="col-lg-6 col-md-12 col-sm-12" style={{backgroundColor:'white', paddingRight:0}}>
-          <div style={{margin:'auto', height:600, padding:50}}>
+      <div className="row" style={{width:'70%', margin: 'auto', marginTop:'10%'}}>
+          <div className="col-lg-6 col-md-12 col-sm-12" style={{backgroundColor:'white', paddingRight:0, height: 600, display:'flex', alignItems:'center'}}>
+          <div style={{margin:'auto', width:'80%'}}>
               <center>
                 <h1>Sign Up!</h1>
                 <FloatingLabel
@@ -140,8 +141,8 @@ const SignUp = () => {
               </center>
               </div>
           </div>
-          <div className="col-lg-6 col-sm-12 col-md-12" style={{paddingLeft:'0px'}}>
-          <img src={loginImage} style={{height:600, objectFit:'scale-down'}}/>
+          <div className="col-lg-6 col-sm-12 col-md-12" style={{paddingLeft:'0px', paddingRight:0}}>
+          <img src={loginImage} style={{height:600, width:'100%'}}/>
           </div>
         </div>
     </center>
