@@ -45,7 +45,7 @@ const NavBar = () => {
             :
             <>
             <Nav.Link className="on-hover" style={{fontSize:20, fontFamily:'helvetica', marginRight:10}}  href="/login">Login</Nav.Link> &nbsp; &nbsp; &nbsp;
-            <Nav.Link className="nav-link-hover box" style={{fontSize:20, marginRight: 50, fontFamily:'helvetica', border:'1px solid black', borderRadius:10, paddingLeft:20, paddingRight: 20}}  href="/signup">Sign Up</Nav.Link>
+            <Nav.Link className="nav-link-hover box" style={{fontSize:20, marginRight: 50, fontFamily:'helvetica', border:'1px solid black', borderRadius:10}}  href="/signup">Sign Up</Nav.Link>
             </>
           }
           </Nav>

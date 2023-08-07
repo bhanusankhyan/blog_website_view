@@ -21,10 +21,38 @@ border-bottom: 1px solid grey;
   transition: color 2s ease-out;
 }
 
-.box:hover {
+/* .box:hover {
   background-color: black;
   -webkit-transition: background-color 2s ease-out;
   -moz-transition: background-color 2s ease-out;
   -o-transition: background-color 2s ease-out;
   transition: background-color 2s ease-out;
+} */
+.box {
+ /* padding: 17px 40px; */
+ border-radius: 50px;
+ border: 0;
+ background-color: white;
+ box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+ /* letter-spacing: 1.5px; */
+ /* text-transform: uppercase; */
+ font-size: 15px;
+ transition: all 1s ease;
+}
+
+.box:hover {
+ /* letter-spacing: 3px; */
+ /* background-color: hsl(261deg 80% 48%); */
+ background-color: black;
+ color: hsl(0, 0%, 100%);
+ box-shadow: black 0px 7px 29px 0px;
+}
+
+.box:active {
+ /* letter-spacing: 3px; */
+ background-color: hsl(261deg 80% 48%);
+ color: hsl(0, 0%, 100%);
+ box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+ transform: translateY(10px);
+ transition: 100ms;
 }
