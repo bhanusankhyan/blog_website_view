@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import Global from '../../global/variables';
+import Loader from '../utils/Loader';
 
 const Blog = () => {
   const params = useParams();
@@ -18,11 +19,13 @@ const Blog = () => {
   const [comment, setComment] = useState("")
   const [commentOnClick, setcommentOnClick] = useState(false)
   const [error, setError] = useState(false)
+  const [loader, setLoader] = useState(true)
 
   const navigate = useNavigate();
 
   console.log(id)
   useEffect( () => {
+
     get_blog()
   }, [])
 
@@ -38,6 +41,7 @@ const Blog = () => {
     const response = await fetch(`${Global.proxy}/blog/get_blog`, requestOptions)
     const resp = await response.json()
     setData(resp)
+    setLoader(false)
     console.log(resp)
   }
 
@@ -67,7 +71,7 @@ const Blog = () => {
     setError(true)
     setTimeout(() => {
       setError(false)
-    }, 10000)
+    }, 7000)
   }
     setComment("")
     get_blog()
@@ -78,6 +82,9 @@ const Blog = () => {
   return(
     <>
     <NavBar />
+    { loader ?
+      <Loader /> :
+      <>
     {
       error ?
       <div class="alert alert-danger" style={{right:0, marginRight: 10, position:'fixed'}} role="alert">
@@ -151,6 +158,7 @@ const Blog = () => {
       </div>
       :
        ""
+     } </>
       }
     </>
   )

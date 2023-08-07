@@ -6,6 +6,7 @@ import blog1 from '../../images/image2.webp'
 import PageCount from '../Pagination/Pagination'
 import { useNavigate } from 'react-router-dom';
 import Global from '../../global/variables';
+import Loader from '../utils/Loader';
 
 const Home = () => {
   const [data, setData] = useState([])
@@ -61,11 +62,7 @@ const Home = () => {
       <br />
     </center>
     { loader ?
-      <div className="d-flex justify-content-center" style={{marginTop:'10%'}}>
-      <div className="spinner-grow" style={{width: '3rem', height: '3rem', role:"status"}}>
-        <span className="sr-only"></span>
-      </div>
-       </div>
+      <Loader />
        :
     <>
     { page == 1 ?

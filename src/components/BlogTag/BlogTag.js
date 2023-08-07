@@ -5,15 +5,17 @@ import BlogCard from '../Card/Card'
 import NavBar from '../Navbar/Navbar';
 import PageCount from '../Pagination/Pagination';
 import Global from '../../global/variables';
+import Loader from '../utils/Loader'
 
 
 const BlogsTag = () => {
   const [data, setData] = useState({})
   const [page, setPage] = useState(1)
   const [pageCount, setPageCount] = useState(1)
+  const [loader, setLoader] = useState(true)
 
   const { tag } = useParams();
-  console.log(tag)
+  // console.log(tag)
 
   useEffect( () => {
     fetchBlogs();
@@ -31,12 +33,16 @@ const BlogsTag = () => {
     const resp = await response.json()
     setData(resp)
     setPageCount(resp.pageCount)
-    console.log(resp)
+    setLoader(false)
+    // console.log(resp)
   }
 
 return(
   <>
   <NavBar />
+  { loader ?
+    <Loader /> :
+    <>
   <div style={{marginLeft:'10%', marginRight:'10%', marginBottom:'10%', marginTop:'3%'}}>
     <center>
       <span className="blog-font" style={{fontSize:"3rem"}}> {tag} </span>
@@ -46,6 +52,8 @@ return(
   <PageCount page={page} setPage = {setPage} pageCount = {pageCount} />
   <div style={{marginBottom:100}}>
   </div>
+  </>
+}
   </>
 )
 }
