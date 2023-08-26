@@ -40,7 +40,7 @@ const NavBar = () => {
             <FontAwesomeIcon icon={faCircleUser} /> &nbsp;
             {localStorage.getItem('user_name')}
             </Nav.Link> &nbsp; &nbsp; &nbsp;
-            <Nav.Link className="on-hover" style={{fontSize:20, fontFamily:'helvetica', marginRight:10}}  onClick={handleSignOut}>Sign Out</Nav.Link>
+            <Nav.Link className="on-hover" style={{fontSize:20, fontFamily:'helvetica', marginRight:50}}  onClick={handleSignOut}>Sign Out</Nav.Link>
             </>
             :
             <>
