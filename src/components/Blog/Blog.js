@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import './blog.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import Global from '../../global/variables';
 import Loader from '../utils/Loader';
@@ -22,8 +22,6 @@ const Blog = () => {
   const [loader, setLoader] = useState(true)
 
   const navigate = useNavigate();
-
-  console.log(id)
   useEffect( () => {
 
     get_blog()
@@ -42,7 +40,6 @@ const Blog = () => {
     const resp = await response.json()
     setData(resp)
     setLoader(false)
-    console.log(resp)
   }
 
   const handleDate = (date) => {
@@ -52,7 +49,7 @@ const Blog = () => {
   }
 
   const handleSubmit = async() => {
-    if (localStorage.getItem('user_id').length > 0 ){
+    if (localStorage.getItem('user_id')?.length > 0 ){
       const req_data = {
         id: id,
         comment: comment,
@@ -63,9 +60,8 @@ const Blog = () => {
         body : JSON.stringify(req_data)
       }
 
-      const response = await fetch('http://localhost:8000/blog/post_comment', requestOptions)
+      const response = await fetch(`${Global.proxy}/blog/post_comment`, requestOptions)
       const data = await response.json()
-    console.log(data)
   }
   else{
     setError(true)
@@ -77,8 +73,41 @@ const Blog = () => {
     get_blog()
     setcommentOnClick(false)
   }
-  // const location = useLocation()
-  // console.log(location.pathname.split('/')[2])
+
+  const handleBlogDelete = async () => {
+    const req_data  ={
+      blog_id : data[0]._id,
+      user_id: data[0].user_id
+    }
+    const response = await fetch(`${Global.proxy}/blog/delete_blog`, {
+      method: 'DELETE',
+      body: JSON.stringify(req_data)
+    })
+    const resp = await response.json()
+    if (resp?.success == true){
+      navigate('/')
+    }
+  }
+
+  const handleCommentDelete = async (user_id, comment) => {
+    const req_data = {
+      blog_id: data[0]._id,
+      user_id: user_id,
+      comment: comment
+    }
+    const response = await fetch(`${Global.proxy}/blog/delete_comment`,{
+      method: 'DELETE',
+      body: JSON.stringify(req_data)
+    })
+    const resp = await response.json()
+    if (resp?.success == true){
+      get_blog()
+    }
+    else {
+
+    }
+  }
+
   return(
     <>
     <NavBar />
@@ -136,12 +165,16 @@ const Blog = () => {
       <Button variant="primary" onClick={handleSubmit} style={{float:'right'}}>
         Post Comment
       </Button>
-      <div style={{marginTop:100, marginLeft:'10%', marginRight:'10%'}}>
+      <div style={{marginTop:100, marginLeft:'10%'}}>
       { data[0]?.comments?.map( (c) => {
         return(
           <div className="mt-5">
           <FontAwesomeIcon icon={faUser} size={'2xl'}/>
           <span className="blog-font" style={{fontWeight:300, fontSize:'1rem'}}> {c.user_name} </span>
+          {
+            localStorage.getItem('user_id') == c?.user_id ?
+            <FontAwesomeIcon onClick={() => handleCommentDelete(c.user_id, c.comment)} icon={faTrash} size={'xl'} style={{color:'red', float:'right', cursor:'pointer'}} /> : ""
+          }
           <br />
           <span className="blog-font" style={{fontWeight:300, fontSize:'1rem'}}>{handleDate(c.time)}</span>
           <br />
@@ -155,6 +188,15 @@ const Blog = () => {
       )
       }
       </div>
+      {
+        localStorage.getItem('user_id') == data[0]?.user_id  ?
+        <Button className="mb-4" variant="danger" onClick={handleBlogDelete} style={{float:'right'}}>
+          Delete Blog
+        </Button>
+        : <Button className="mb-4" variant="danger" onClick={handleBlogDelete} style={{float:'right'}} disabled>
+          Delete Blog
+        </Button>
+      }
       </div>
       :
        ""

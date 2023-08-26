@@ -14,16 +14,15 @@ const Home = () => {
   const [page, setPage] = useState(1)
   const [pageCount, setPageCount] = useState(1)
   const [loader, setLoader] = useState(true)
-  // console.log(process.ENV.NODE_ENV)
-  console.log(process.env.NODE_ENV)
 
   const navigate = useNavigate();
 
   useEffect( () => {
     get_blogs();
-  }, [])
+  }, [page])
 
   const get_blogs = async () => {
+    setLoader(true)
     const data = {
       page: page
     }
@@ -31,21 +30,14 @@ const Home = () => {
       method: 'POST',
       body: JSON.stringify(data)
 })
-    // console.log(response)
     const jsonData = await response.json()
-    // console.log(jsonData)
+    setLoader(false)
     setData(jsonData)
     setBlog(jsonData?.resp[0])
-    // console.log(jsonData?.resp[0])
     setPageCount(jsonData?.pageCount)
-    setLoader(false)
 
   }
 
-  useEffect(() => {
-    setLoader(true)
-    get_blogs()
-  },[page])
 
   return(
   <>
@@ -70,7 +62,7 @@ const Home = () => {
     <img src={`data:image/png;base64,${blog?.image}`} style={{maxHeight:'1000px',width:'100%'}}/>
     <div class="bottom-left">
     <div onClick={() => { navigate(`/blog/${blog._id}`) }} style={{cursor:'pointer'}}>
-      <div style={{fontSize:'2rem', float:'left', paddingLeft:10, paddingRight:10, width:'100%'}}>{blog?.title?.substring(0,50)}{blog?.title?.length > 50 ? "..." : ""}</div>
+      <div style={{fontSize:'2rem', float:'left', paddingLeft:10, paddingRight:10, width:'100%', wordWrap:'break-word'}}>{blog?.title?.substring(0,50)}{blog?.title?.length > 50 ? "..." : ""}</div>
       <br />
       <div style={{fontSize:'1.2rem', float:'left', paddingLeft:10, paddingRight:10, width:'100%'}}>{blog?.description?.substring(0, 150)}...</div>
       <br />
@@ -92,6 +84,7 @@ const Home = () => {
   }
     <div className="container">
       <BlogCard data = {page == 1 ? {...data, resp:data?.resp?.slice(1,8)} : data}/>
+      <div className="mb-4"> </div>
       <center>
       <PageCount page={page} setPage = {setPage} pageCount = {pageCount}/>
       </center>

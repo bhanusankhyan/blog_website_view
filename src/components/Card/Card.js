@@ -43,9 +43,9 @@ const BlogCard = ( {data} ) => {
             <div className="mt-3"> </div>
             <div>
             <div onClick={() => { navigate(`/blog/${d._id}`) }} style={{cursor:'pointer'}}>
-            <span className="blog-font" style={{fontSize:20, fontWeight: 1000}}>{d.user_name}  {handleDate(d.date)}</span>
+            <span className="blog-font" style={{fontSize:15, fontWeight: 700}}>{d.user_name}  {handleDate(d.date)}</span>
             <br />
-            <span className="blog-font" style={{fontSize:30, fontWeight: 700}}>{d.title.substring(0,40)}{d.title.length > 40 ? "..." : ""}</span>
+            <span className="blog-font" style={{fontSize:20, fontWeight: 700}}>{d.title.substring(0,40)}{d.title.length > 40 ? "..." : ""}</span>
             <br />
             <span className="blog-font" style={{fontWeight:500}}>{d.description.substring(0, 100)}{d.description.length > 100 ? "..." : ""}</span>
             </div>
