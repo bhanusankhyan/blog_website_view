@@ -34,7 +34,7 @@ const BlogsTag = () => {
     setData(resp)
     setPageCount(resp.pageCount)
     setLoader(false)
-    // console.log(resp)
+    console.log(resp)
   }
 
 return(

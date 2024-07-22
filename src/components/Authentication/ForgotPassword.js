@@ -9,19 +9,27 @@ import {useNavigate} from 'react-router-dom';
 import Global from '../../global/variables';
 
 
-const Login = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("")
   const [emailOnClick, setEmailOnClick] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordOnClick, setPasswordOnClick] = useState(false)
+  const [reEnterPassword, setReEnterPassword] = useState('')
+  const [reEnterPasswordOnClick, setReEnterPasswordOnClick] = useState(false)
   const [inputFieldAlert, setInputFieldAlert] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
+  console.log(password)
+  console.log(reEnterPassword)
 
-  const handleLogin = () => {
-    if(email.trim() == "" || password.trim() == ""){
+  const handleChangePassword = () => {
+    if(email.trim() == "" || password.trim() == "" || reEnterPassword.trim() == ""){
       setInputFieldAlert(true)
       setErrorMessage("Please Fill in the required fields")
+    }
+    else if(password.trim() != reEnterPassword.trim()){
+      setInputFieldAlert(true)
+      setErrorMessage("Both passwords should match.")
     }
     else{
       handleClick()
@@ -33,23 +41,23 @@ const Login = () => {
       email: email,
       password: password
     }
-    const response = await fetch(`${Global.proxy}/blog/login`, {
+    const response = await fetch(`${Global.proxy}/blog/forgot_password`, {
       method: 'POST',
       body: JSON.stringify(data)
     })
     const resp = await response.json()
-    console.log(resp)
+    // console.log(resp)
     if (resp?.success == true){
       // window.user_name = resp.name
       localStorage.setItem('user_name', resp.name)
       localStorage.setItem("user_id", resp._id)
       // console.log(localStorage.getItem('user_name'))
-      navigate("/")
+      navigate("/login")
       // setUserName(resp.name)
     }
     else{
       setInputFieldAlert(true)
-      setErrorMessage("Incorrect Details!!!")
+      setErrorMessage("Please Try Again!!!")
     }
 
   }
@@ -77,8 +85,8 @@ const Login = () => {
           <div className="col-lg-6 col-md-12 col-sm-12" style={{borderRadius:20, backgroundColor:'white', paddingRight:0, paddingBottom:30, paddingTop:30, width:'700px', display:'flex', alignItems:'center'}}>
           <div style={{margin:'auto',width:'80%'}}>
               <center>
-                <h1>Welcome Back!</h1>
-                Please enter your details.
+                <h1>Change Password</h1>
+                Enter the Details.
                 <FloatingLabel
                 controlId="floatingInput"
                 label={"Email"}
@@ -104,17 +112,23 @@ const Login = () => {
                 isValid={password.trim() !== ""}
                 isInvalid={passwordOnClick && password.trim() === ""}/>
             </FloatingLabel>
-            <a href="/forgot_password">
-            <span className="hover-dark-color mb-2" style={{float:'right', cursor:'pointer', textDecoration:'underline'}} >Forgot Password</span>
-            </a>
-            <br />
-            <br />
+            <FloatingLabel
+            controlId="floatingInput"
+            label={"Re Enter Password"}
+            className="mb-3"
+          >
+            <Form.Control type="password" value={reEnterPassword}
+              onClick={() => setReEnterPasswordOnClick(true)}
+              onChange={(e) => setReEnterPassword(e.target.value)}
+              placeholder="Re Enter Password"
+              isValid={reEnterPassword.trim() !== "" && reEnterPassword == password}
+              isInvalid={reEnterPasswordOnClick && reEnterPassword.trim() === "" }/>
+          </FloatingLabel>
             <div className="d-grid gap-2">
-            <Button variant="secondary" onClick={handleLogin} size="lg">Login</Button>
+            <Button variant="secondary" onClick={handleChangePassword} size="lg">Change Password</Button>
             </div>
             <br />
             <div >
-            <p>Don't have an account? <a className="hover-dark-color" href="/signup" style={{cursor:'pointer'}}>Sign Up</a></p>
             </div>
               </center>
               </div>
@@ -126,4 +140,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default ForgotPassword;

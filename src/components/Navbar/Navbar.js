@@ -3,18 +3,17 @@ import {useState, useEffect} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import AddPost from '../handlePost/AddPost'
 import './navbar.css';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import Home from '../Home/Home'
 
 const NavBar = () => {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(true)
   const [user, setUser] = useState(localStorage.getItem('user_name'))
   const handleShow = () => setShow(true)
   const handleClose = () => setShow(false)
   let navigate = useNavigate();
-
-  console.log(window.location.href)
 
   const handleSignOut = () => {
     localStorage.setItem('user_name', "")
@@ -28,11 +27,9 @@ const NavBar = () => {
     <>
     <Navbar bg="white" variant="light">
           <Navbar.Brand className="on-hover" style={{marginLeft:50, fontFamily:'helvetica'}} href="/">Home</Navbar.Brand>
-          { localStorage.getItem("user_name")?.length > 0 && window.location.pathname == '/' ?
           <Nav className="me-auto ml-5">
-            <Nav.Link className="on-hover" style={{fontSize:20, marginLeft: 20, fontFamily:'helvetica'}} onClick = {handleShow}>Add Post</Nav.Link>
-          </Nav> : <> </>
-          }
+            <Nav.Link className="on-hover" style={{fontSize:20, marginLeft: 20, fontFamily:'helvetica'}} href="/add_blog">Write Blog</Nav.Link>
+          </Nav>
           <Nav className="ms-auto ml-5">
           { localStorage.getItem('user_name')?.length > 0 ?
             <>
@@ -50,7 +47,6 @@ const NavBar = () => {
           }
           </Nav>
       </Navbar>
-      <AddPost handleShow={handleShow} handleClose={handleClose} show={show}/>
     </>
   )
 }

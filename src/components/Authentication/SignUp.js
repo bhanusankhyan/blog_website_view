@@ -20,12 +20,14 @@ const SignUp = () => {
   const [passwordOnClick, setPasswordOnClick] = useState(false)
   const [confirmPasswordOnClick, setConfirmPasswordOnClick] = useState(false)
   const [inputFieldAlert, setInputFieldAlert] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   let navigate = useNavigate();
 
   const handleSignUp = async () => {
     if (name.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "" || password !== confirmPassword){
       setInputFieldAlert(true)
+      setErrorMessage("Please Fill in the required Fields!!!")
     }
     else{
       signUp()
@@ -50,36 +52,36 @@ const SignUp = () => {
       navigate("/")
     }
     else{
-
+      setInputFieldAlert(true)
+      setErrorMessage("User Not Created!!!")
     }
   }
 
   useEffect( () => {
     setTimeout( () => {
       setInputFieldAlert(false)
+      setErrorMessage("")
     }, 7000 )
   }, [inputFieldAlert])
 
 
   return (
     <>
-    { localStorage.getItem('user_name')?.length > 0 ?
-    <Navigate to="/" />
-      :
-    <div className="screen-height" style={{backgroundColor:"#f1f1f1", paddingBottom:'5%'}}>
     <NavBar />
     {
       inputFieldAlert &&
-      <Alert variant="danger" onClose={() => setInputFieldAlert(false)}>
-      <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-      <p>
-        Please Fill in the required fields!!!
-      </p>
-    </Alert>
+        <div class="alert alert-danger" style={{right:0, marginRight: 10, position:'fixed'}} role="alert">
+          {errorMessage}
+        </div>
+
     }
+    { localStorage.getItem('user_name')?.length > 0 ?
+    <Navigate to="/" />
+      :
+    <div className="screen-height" style={{backgroundColor:"#f1f1f1", height:'100vh', height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
     <center>
-      <div className="row" style={{width:'70%', margin: 'auto', marginTop:'10%'}}>
-          <div className="col-lg-6 col-md-12 col-sm-12" style={{backgroundColor:'white', paddingRight:0, height: 600, display:'flex', alignItems:'center'}}>
+      <div className="row screen-height" style={{width:'70%', margin: 'auto', display:'flex', justifyContent:'center', alignItems:'center', paddingBottom:30}}>
+          <div className="col-lg-6 col-md-12 col-sm-12" style={{borderRadius:20, backgroundColor:'white', paddingRight:0, paddingBottom:30, paddingTop:30, width:'700px', display:'flex', alignItems:'center'}}>
           <div style={{margin:'auto', width:'80%'}}>
               <center>
                 <h1>Sign Up!</h1>
@@ -133,16 +135,14 @@ const SignUp = () => {
               isValid={confirmPassword === password && confirmPassword.trim() !== ""}
               isInvalid={confirmPasswordOnClick && (confirmPassword != password || confirmPassword.trim() === "")}/>
           </FloatingLabel>
-            <br />
-            <br />
             <div className="d-grid gap-2">
-            <Button variant="secondary" size="lg" onClick={handleSignUp} >Sign Up</Button>
+            <Button variant="secondary" size="lg" onClick={handleSignUp}>Change Password</Button>
+            </div>
+            <div className="mt-3">
+            <p>Already a user? <a className="hover-dark-color" href="/login" style={{cursor:'pointer'}}>Sign In</a></p>
             </div>
               </center>
               </div>
-          </div>
-          <div className="col-lg-6 col-sm-12 col-md-12" style={{paddingLeft:'0px', paddingRight:0}}>
-          <img src={loginImage} style={{height:600, width:'100%'}}/>
           </div>
         </div>
     </center>

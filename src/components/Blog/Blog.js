@@ -11,6 +11,9 @@ import { faUser, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import Global from '../../global/variables';
 import Loader from '../utils/Loader';
+import DeletePost from '../handlePost/DeletePost'
+import Modal from 'react-bootstrap/Modal';
+
 
 const Blog = () => {
   const params = useParams();
@@ -19,7 +22,11 @@ const Blog = () => {
   const [comment, setComment] = useState("")
   const [commentOnClick, setcommentOnClick] = useState(false)
   const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const [loader, setLoader] = useState(true)
+  const [showDeleteBlogModal, setShowDeleteBlogModal] = useState(false)
+  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false)
+  const [deleteComment, setDeleteComment] = useState({})
 
   const navigate = useNavigate();
   useEffect( () => {
@@ -38,8 +45,12 @@ const Blog = () => {
 
     const response = await fetch(`${Global.proxy}/blog/get_blog`, requestOptions)
     const resp = await response.json()
-    setData(resp)
+    if(resp?.success == true){
+    setData(resp?.res)
     setLoader(false)
+  }else{
+    navigate('/sadas')
+  }
   }
 
   const handleDate = (date) => {
@@ -65,13 +76,23 @@ const Blog = () => {
   }
   else{
     setError(true)
+    setErrorMessage("User Not Logged In!!!")
     setTimeout(() => {
       setError(false)
+      setErrorMessage("")
     }, 7000)
   }
     setComment("")
     get_blog()
     setcommentOnClick(false)
+  }
+
+  const handleBlogModalCancel = () => {
+    setShowDeleteBlogModal(false)
+  }
+
+  const handleCommentModalCancel = () => {
+    setShowDeleteCommentModal(false)
   }
 
   const handleBlogDelete = async () => {
@@ -89,11 +110,11 @@ const Blog = () => {
     }
   }
 
-  const handleCommentDelete = async (user_id, comment) => {
+  const handleCommentDelete = async (comment) => {
     const req_data = {
       blog_id: data[0]._id,
-      user_id: user_id,
-      comment: comment
+      user_id: comment.user_id,
+      comment: comment.comment
     }
     const response = await fetch(`${Global.proxy}/blog/delete_comment`,{
       method: 'DELETE',
@@ -104,8 +125,14 @@ const Blog = () => {
       get_blog()
     }
     else {
-
+      setError(true)
+      setErrorMessage("User Not Logged In!!!")
+      setTimeout(() => {
+        setError(false)
+        setErrorMessage("")
+      }, 7000)
     }
+    setShowDeleteCommentModal(false)
   }
 
   return(
@@ -117,7 +144,7 @@ const Blog = () => {
     {
       error ?
       <div class="alert alert-danger" style={{right:0, marginRight: 10, position:'fixed'}} role="alert">
-        User not Logged In!!!
+        {errorMessage}
       </div>
       : ""
     }
@@ -133,8 +160,8 @@ const Blog = () => {
       </div>
       </center>
       <div style={{textAlign:'justify', textJustify:'inter-word'}} >
-        <div className="blog-font" style={{fontWeight:'250'}}>{data[0].description}</div>
-        <div className="mt-5">
+        <div className="blog-font mt-2" style={{fontWeight:'250', whiteSpace: "pre-wrap"}}> {data[0].description} </div>
+        <div className="mt-4">
           {
             data[0]?.tags.map((tag) => {
               return(
@@ -145,12 +172,12 @@ const Blog = () => {
             })
           }
         </div>
-        <div className="blog-font mt-5" style={{fontSize:'1.5rem', fontWeight:700}}> Written by {data[0].user_name} </div>
+        <div className="blog-font mt-2" style={{fontSize:'1.5rem', fontWeight:700}}> Written by {data[0].user_name} </div>
       </div>
-      <div className="mt-5"> </div>
+      <div className="mt-3"> </div>
       <span className="blog-font" style={{fontSize:'2rem'}}> Comments </span>
       <br />
-      <FloatingLabel className="mb-3" controlId="floatingTextarea2" label="Leave a comment here">
+      <FloatingLabel className="mb-3 mt-1" controlId="floatingTextarea2" label="Leave a comment here">
       <Form.Control
         as="textarea"
         placeholder="Leave a comment here"
@@ -162,10 +189,14 @@ const Blog = () => {
       />
       </FloatingLabel>
 
-      <Button variant="primary" onClick={handleSubmit} style={{float:'right'}}>
+      <div>
+      <div className="d-flex justify-content-end">
+      <Button variant="primary" onClick={handleSubmit}>
         Post Comment
       </Button>
-      <div style={{marginTop:100, marginLeft:'10%'}}>
+      </div>
+      { data[0]?.comments?.length > 0 ?
+      <div style={{marginLeft:'10%'}}>
       { data[0]?.comments?.map( (c) => {
         return(
           <div className="mt-5">
@@ -173,37 +204,42 @@ const Blog = () => {
           <span className="blog-font" style={{fontWeight:300, fontSize:'1rem'}}> {c.user_name} </span>
           {
             localStorage.getItem('user_id') == c?.user_id ?
-            <FontAwesomeIcon onClick={() => handleCommentDelete(c.user_id, c.comment)} icon={faTrash} size={'xl'} style={{color:'red', float:'right', cursor:'pointer'}} /> : ""
+            <FontAwesomeIcon onClick={ () => {setShowDeleteCommentModal(true); setDeleteComment({user_id: c.user_id, comment:c.comment});}} icon={faTrash} size={'xl'} style={{color:'red', float:'right', cursor:'pointer', marginTop:8}} /> : ""
           }
           <br />
           <span className="blog-font" style={{fontWeight:300, fontSize:'1rem'}}>{handleDate(c.time)}</span>
           <br />
           <br />
-          <span className="blog-font" style={{fontWeight:300, fontSize:'1.2rem'}}> {c.comment} </span>
+          <span className="blog-font" style={{fontWeight:300, fontSize:'1.2rem', whiteSpace:'pre-wrap'}}> {c.comment} </span>
           <hr />
           </div>
         )
       }
-
-      )
-      }
-      </div>
+      )}
+      </div> : ''
+    }
+    </div>
+    <div className="mt-3 d-flex justify-content-end">
       {
         localStorage.getItem('user_id') == data[0]?.user_id  ?
-        <Button className="mb-4" variant="danger" onClick={handleBlogDelete} style={{float:'right'}}>
+        <Button className="mb-4" variant="danger" onClick={() => setShowDeleteBlogModal(true)}>
           Delete Blog
         </Button>
-        : <Button className="mb-4" variant="danger" onClick={handleBlogDelete} style={{float:'right'}} disabled>
+        : <Button className="mb-4" variant="danger" onClick={() => setShowDeleteBlogModal(true)} disabled>
           Delete Blog
         </Button>
       }
+      </div>
       </div>
       :
        ""
      } </>
       }
+      <DeletePost showDeleteModal={showDeleteBlogModal} handleCancel = {handleBlogModalCancel} handleDelete = {handleBlogDelete} text={"Are you sure want to delete this post?"} type={"Post"}/>
+      <DeletePost showDeleteModal={showDeleteCommentModal} handleCancel = {handleCommentModalCancel} handleDelete = {() => handleCommentDelete(deleteComment)} text={"Are you sure want to delete this comment?"} type={"Comment"}/>
     </>
   )
 }
+
 
 export default Blog;

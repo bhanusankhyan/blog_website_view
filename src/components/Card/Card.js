@@ -39,7 +39,7 @@ const BlogCard = ( {data} ) => {
       data.resp.map((d, idx) => {
       return(
         <div className={(idx+1)%3 === 0 ? "col-lg-4 col-sm-12 col-md-6" : "mr-5 col-lg-4 col-sm-12 col-md-6"} style={{marginTop:80}}>
-            <img src={`data:image/png;base64,${d.image}`} style={{height:'300px', width:'100%', objectFit:'cover'}} />
+            <img src={`data:image/png;base64,${d.image}`} style={{height:'300px', width:'100%', objectFit:'cover', cursor:'pointer'}} onClick={() => { navigate(`/blog/${d._id}`) }}/>
             <div className="mt-3"> </div>
             <div>
             <div onClick={() => { navigate(`/blog/${d._id}`) }} style={{cursor:'pointer'}}>

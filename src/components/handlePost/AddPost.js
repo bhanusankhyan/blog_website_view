@@ -7,11 +7,15 @@ import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Global from '../../global/variables';
+import NavBar from '../Navbar/Navbar'
+import './post.css'
+import {useNavigate} from 'react-router-dom';
 
 const AddPost = ({handleShow, handleClose, show}) => {
   // const [show, setShow] = useState(false)
   // const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
+  const navigate = useNavigate();
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [subTitle, setSubTitle] = useState("")
@@ -25,6 +29,10 @@ const AddPost = ({handleShow, handleClose, show}) => {
   const [tag, setTag] = useState("")
   const [tags, setTags] = useState([])
   const [message, setMessage] = useState("")
+
+  const handleAddPost = () => {
+      navigate('/login')
+  }
 
   const handleAddTag = () => {
     if(tag.trim() == ""){
@@ -82,9 +90,9 @@ const AddPost = ({handleShow, handleClose, show}) => {
 
       const response = await fetch(`${Global.proxy}/blog/insert_blog`, requestOptions)
       const data = await response.json()
-      console.log(data)
-      handleClose();
-
+      if (data?.resp?.acknowledgment == 'success'){
+        navigate(`/blog/${data?.resp?._id}`)
+      }
     }
   }
 
@@ -112,7 +120,16 @@ const AddPost = ({handleShow, handleClose, show}) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} size={'xl'}>
+    {
+      localStorage?.getItem('user_id')?.length > 0 ?
+    <>
+      <NavBar />
+      <div style={{marginLeft:'10%', marginRight:'10%', marginBottom:'10%', marginTop:'3%'}}>
+      <center>
+      <div className="mb-3">
+      <span className="blog-font" style={{fontSize:"3rem"}}> Write a New Blog </span>
+      </div>
+      </center>
       {
         imageAlert || fieldsAlert ?
         <Alert variant="danger" onClose={() => setImageAlert(false)}>
@@ -122,9 +139,6 @@ const AddPost = ({handleShow, handleClose, show}) => {
         </p>
       </Alert> : ""
       }
-        <Modal.Header closeButton>
-          <Modal.Title>Add Post</Modal.Title>
-        </Modal.Header>
         <Modal.Body>
         <FloatingLabel
         controlId="floatingInput"
@@ -139,13 +153,14 @@ const AddPost = ({handleShow, handleClose, show}) => {
         className="mb-3"
         >
       <Form.Control type="text" value={tag} onClick={() => setTagOnClick(true)} onChange={(e) => setTag(e.target.value)} placeholder="Tags" isValid={tag.trim() !== ""} isInvalid={tagOnClick && tags.length === 0}/>
-      <br/>
+      <div className="mb-2"></div>
+      <div className="mb-3">
       <button class="btn btn-outline-secondary" style={{marginRight:10}} type="button" onClick={handleAddTag}>
       Add &nbsp;
       <FontAwesomeIcon icon={faPlus} size={'l'}/>
       </button>
-      <br />
-      <br />
+      <br/>
+      <br/>
       {
         tags?.map( (tagName) => {
           return(
@@ -155,6 +170,8 @@ const AddPost = ({handleShow, handleClose, show}) => {
           )
         })
       }
+
+      </div>
     </FloatingLabel>
         <FloatingLabel className="mb-3" controlId="floatingTextarea2" label="Description">
         <Form.Control
@@ -168,20 +185,20 @@ const AddPost = ({handleShow, handleClose, show}) => {
           isInvalid={descriptionOnClick && description.trim() === ""}
         />
         </FloatingLabel>
-        <label class="form-label" for="customFile">Image Upload</label>
+        <label className="form-label mb-3" for="customFile">Image Upload</label>
         <input type="file" onChange={(e) => handleFile(e)} class="form-control form-control-lg" id="customFile" isInvalid={false} />
+        <div className="d-flex justify-content-end" style={{marginTop:40}}>
+        <Button variant="primary" onClick={handleSubmit}>
+              Save Changes
+        </Button>
+        </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Save Changes
-          </Button>
-
-        </Modal.Footer>
-      </Modal>
-    </>
+      </div>
+    </> :
+    <>
+    {navigate('/login')} </>
+  }
+  </>
   )
 }
 
