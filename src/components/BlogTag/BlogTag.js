@@ -15,7 +15,6 @@ const BlogsTag = () => {
   const [loader, setLoader] = useState(true)
 
   const { tag } = useParams();
-  // console.log(tag)
 
   useEffect( () => {
     fetchBlogs();
@@ -34,7 +33,6 @@ const BlogsTag = () => {
     setData(resp)
     setPageCount(resp.pageCount)
     setLoader(false)
-    console.log(resp)
   }
 
 return(

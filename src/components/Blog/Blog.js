@@ -143,7 +143,7 @@ const Blog = () => {
       <>
     {
       error ?
-      <div class="alert alert-danger" style={{right:0, marginRight: 10, position:'fixed'}} role="alert">
+      <div class="alert alert-danger" style={{top:100, right:0, marginRight: 10, position:'fixed'}} role="alert">
         {errorMessage}
       </div>
       : ""

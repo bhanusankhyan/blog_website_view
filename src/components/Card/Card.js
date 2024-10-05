@@ -14,8 +14,6 @@ const BlogCard = ( {data} ) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const navigate = useNavigate();
 
-  console.log(data)
-
   const handleCancel = () => {
     setShowDeleteModal(false)
   }

@@ -25,7 +25,7 @@ const NavBar = () => {
   }, [localStorage.getItem('user_name')])
   return(
     <>
-    <Navbar bg="white" variant="light">
+    <Navbar bg="white" variant="light" sticky="top">
           <Navbar.Brand className="on-hover" style={{marginLeft:50, fontFamily:'helvetica'}} href="/">Home</Navbar.Brand>
           <Nav className="me-auto ml-5">
             <Nav.Link className="on-hover" style={{fontSize:20, marginLeft: 20, fontFamily:'helvetica'}} href="/add_blog">Write Blog</Nav.Link>

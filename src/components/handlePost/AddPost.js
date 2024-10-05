@@ -9,7 +9,7 @@ import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Global from '../../global/variables';
 import NavBar from '../Navbar/Navbar'
 import './post.css'
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, redirect, Navigate} from 'react-router-dom';
 
 const AddPost = ({handleShow, handleClose, show}) => {
   // const [show, setShow] = useState(false)
@@ -29,10 +29,6 @@ const AddPost = ({handleShow, handleClose, show}) => {
   const [tag, setTag] = useState("")
   const [tags, setTags] = useState([])
   const [message, setMessage] = useState("")
-
-  const handleAddPost = () => {
-      navigate('/login')
-  }
 
   const handleAddTag = () => {
     if(tag.trim() == ""){
@@ -57,7 +53,6 @@ const AddPost = ({handleShow, handleClose, show}) => {
     if(e.target.files){
       if(e.target.files[0].type.includes('image')){
         setImage(e.target.files[0])
-        console.log(image)
       }
       else{
         setImageAlert(true)
@@ -81,8 +76,6 @@ const AddPost = ({handleShow, handleClose, show}) => {
       formData.append('user_id', localStorage.getItem('user_id'))
       formData.append('tags', tags)
       formData.append('image', image)
-      console.log(formData)
-      console.log(tags)
       const requestOptions = {
         method : 'POST',
         body : formData
@@ -196,7 +189,7 @@ const AddPost = ({handleShow, handleClose, show}) => {
       </div>
     </> :
     <>
-    {navigate('/login')} </>
+    <Navigate to="/login" /> </>
   }
   </>
   )

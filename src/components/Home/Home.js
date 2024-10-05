@@ -18,8 +18,6 @@ const Home = () => {
   const navigate = useNavigate();
   const cookieValue = document.getElementById("cookies")
 
-  console.log(cookieValue)
-
   useEffect( () => {
     get_blogs();
   }, [page])

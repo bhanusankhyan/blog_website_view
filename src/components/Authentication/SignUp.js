@@ -45,7 +45,6 @@ const SignUp = () => {
       body: JSON.stringify(data)
     })
     const resp = await response.json()
-    console.log(resp)
     if(resp?.success == true){
       localStorage.setItem('user_name',resp?.data[0]?.name)
       localStorage.setItem('user_id', resp?.data[0]?._id)
@@ -53,7 +52,7 @@ const SignUp = () => {
     }
     else{
       setInputFieldAlert(true)
-      setErrorMessage("User Not Created!!!")
+      setErrorMessage(resp?.error)
     }
   }
 
@@ -67,10 +66,9 @@ const SignUp = () => {
 
   return (
     <>
-    <NavBar />
     {
       inputFieldAlert &&
-        <div class="alert alert-danger" style={{right:0, marginRight: 10, position:'fixed'}} role="alert">
+        <div class="alert alert-danger" style={{top:100,right:0, marginRight: 10, position:'fixed'}} role="alert">
           {errorMessage}
         </div>
 
@@ -78,10 +76,10 @@ const SignUp = () => {
     { localStorage.getItem('user_name')?.length > 0 ?
     <Navigate to="/" />
       :
-    <div className="screen-height" style={{backgroundColor:"#f1f1f1", height:'100vh', height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
-    <center>
-      <div className="row screen-height" style={{width:'70%', margin: 'auto', display:'flex', justifyContent:'center', alignItems:'center', paddingBottom:30}}>
-          <div className="col-lg-6 col-md-12 col-sm-12" style={{borderRadius:20, backgroundColor:'white', paddingRight:0, paddingBottom:30, paddingTop:30, width:'700px', display:'flex', alignItems:'center'}}>
+    <div className="" style={{backgroundColor:"#f1f1f1", minHeight:700, height:'100vh'}}>
+    <NavBar />
+      <div className="row" style={{ height:'90%', margin: 'auto', display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <div className="col-lg-6 col-md-12 col-sm-12" style={{borderRadius:20, backgroundColor:'white', paddingRight:0, paddingBottom:30, paddingTop:30, width:'500px'}}>
           <div style={{margin:'auto', width:'80%'}}>
               <center>
                 <h1>Sign Up!</h1>
@@ -136,7 +134,7 @@ const SignUp = () => {
               isInvalid={confirmPasswordOnClick && (confirmPassword != password || confirmPassword.trim() === "")}/>
           </FloatingLabel>
             <div className="d-grid gap-2">
-            <Button variant="secondary" size="lg" onClick={handleSignUp}>Change Password</Button>
+            <Button variant="secondary" size="lg" onClick={handleSignUp}>Sign Up</Button>
             </div>
             <div className="mt-3">
             <p>Already a user? <a className="hover-dark-color" href="/login" style={{cursor:'pointer'}}>Sign In</a></p>
@@ -145,7 +143,6 @@ const SignUp = () => {
               </div>
           </div>
         </div>
-    </center>
     </div>
   }
   </>

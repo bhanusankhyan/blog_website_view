@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 const PageCount = ( {page, setPage, pageCount} ) => {
 
   const handleChange = (event, pageNumber) => {
-    // console.log(pageNumber)
     setPage(pageNumber)
   }
 

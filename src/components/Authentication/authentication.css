@@ -6,15 +6,13 @@
   color: grey;
 }
 
-@media only screen and (max-height: 850px) {
-/* CSS rules */
+/* @media only screen and (max-height: 850px) {
 .screen-height {
   height: 100vh;
 }
 }
 @media only screen and (min-height: 851px) and (max-height: 2000px) {
-/* CSS rules */
 .screen-height{
   height: 100vh;
 }
-}
+} */

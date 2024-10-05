@@ -19,8 +19,12 @@ const ForgotPassword = () => {
   const [inputFieldAlert, setInputFieldAlert] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
-  console.log(password)
-  console.log(reEnterPassword)
+
+  useEffect(() => {
+    if (localStorage?.user_name){
+      navigate('/')
+    }
+  }, [])
 
   const handleChangePassword = () => {
     if(email.trim() == "" || password.trim() == "" || reEnterPassword.trim() == ""){
@@ -46,14 +50,10 @@ const ForgotPassword = () => {
       body: JSON.stringify(data)
     })
     const resp = await response.json()
-    // console.log(resp)
     if (resp?.success == true){
-      // window.user_name = resp.name
       localStorage.setItem('user_name', resp.name)
       localStorage.setItem("user_id", resp._id)
-      // console.log(localStorage.getItem('user_name'))
       navigate("/login")
-      // setUserName(resp.name)
     }
     else{
       setInputFieldAlert(true)
@@ -71,18 +71,17 @@ const ForgotPassword = () => {
 
   return (
     <>
-    <NavBar />
     {
       inputFieldAlert &&
-        <div class="alert alert-danger" style={{right:0, marginRight: 10, position:'fixed'}} role="alert">
+        <div class="alert alert-danger" style={{top:100, right:0, marginRight: 10, position:'fixed'}} role="alert">
           {errorMessage}
         </div>
 
     }
-    <div style={{backgroundColor:"#f1f1f1",height:'100vh', display:'flex', justifyContent:'center', alignItems:'center'}}>
-    <center >
-      <div className="row" style={{width:'70%', margin: 'auto'}}>
-          <div className="col-lg-6 col-md-12 col-sm-12" style={{borderRadius:20, backgroundColor:'white', paddingRight:0, paddingBottom:30, paddingTop:30, width:'700px', display:'flex', alignItems:'center'}}>
+    <div style={{backgroundColor:"#f1f1f1",height:'100vh', minHeight:700}}>
+    <NavBar />
+      <div className="row" style={{height:'90%', margin:'auto', display:'flex', alignItems:'center', justifyContent: 'center'}}>
+          <div className="col-lg-6 col-md-12 col-sm-12" style={{borderRadius:20, backgroundColor:'white', paddingRight:0, paddingBottom:30, paddingTop:30, width:'500px'}}>
           <div style={{margin:'auto',width:'80%'}}>
               <center>
                 <h1>Change Password</h1>
@@ -134,7 +133,6 @@ const ForgotPassword = () => {
               </div>
           </div>
         </div>
-      </center>
       </div>
       </>
   )
