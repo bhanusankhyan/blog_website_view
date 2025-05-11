@@ -48,7 +48,7 @@ const Blog = () => {
     setData(resp?.res)
     setLoader(false)
   }else{
-    navigate('/sadas')
+    navigate('/page_not_found')
   }
   }
 

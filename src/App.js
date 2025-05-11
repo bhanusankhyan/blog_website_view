@@ -5,7 +5,8 @@ import {Route, Redirect, BrowserRouter as Router, Routes, Switch} from 'react-ro
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import NotFound from './404.js'
-import PageTitle from './components/utils/PageTitle'
+import PageTitle from './components/utils/PageTitle';
+import { Navigate } from 'react-router-dom';
 // import 'font-awesome/css/font-awesome.min.css';
 // import Home from './components/Home/Home'
 
@@ -46,10 +47,12 @@ function App() {
                                                   <PageTitle title="Forgot Password | The Blog" />
                                                   <ForgotPassword />
                                                 </>} />
-        <Route path='*' element={<>
+        <Route path="/page_not_found" element={<>
                                     <PageTitle title="Page Not found | The Blog" />
                                     <NotFound />
                                   </>} />
+
+        <Route path='*' element={<Navigate to="/page_not_found" />} />
       </Routes>
       </Suspense>
     </Router>

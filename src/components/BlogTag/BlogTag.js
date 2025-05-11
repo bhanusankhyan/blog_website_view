@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import './BlogTag.css';
 import BlogCard from '../Card/Card';
 import NavBar from '../Navbar/Navbar';
@@ -17,6 +17,8 @@ const BlogsTag = () => {
 
   const { tag } = useParams();
 
+  const navigate = useNavigate();
+
   useEffect( () => {
     fetchBlogs();
   }, [tag, page])
@@ -31,9 +33,14 @@ const BlogsTag = () => {
       body: JSON.stringify(data)
     })
     const resp = await response.json()
-    setData(resp)
-    setPageCount(resp.pageCount)
-    setLoader(false)
+    if (resp?.resp.length > 0){
+      setData(resp)
+      setPageCount(resp.pageCount)
+      setLoader(false)
+    }
+    else{
+      navigate('/page_not_found')
+    }
   }
 
 return(
