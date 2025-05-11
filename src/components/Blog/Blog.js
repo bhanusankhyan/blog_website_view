@@ -13,7 +13,7 @@ import Global from '../../global/variables';
 import Loader from '../utils/Loader';
 import DeletePost from '../handlePost/DeletePost'
 import Modal from 'react-bootstrap/Modal';
-
+import PageTitle from '../utils/PageTitle'
 
 const Blog = () => {
   const params = useParams();
@@ -30,7 +30,6 @@ const Blog = () => {
 
   const navigate = useNavigate();
   useEffect( () => {
-
     get_blog()
   }, [])
 
@@ -151,6 +150,7 @@ const Blog = () => {
     {
       data?.length > 0 ?
       <div style={{marginBottom:'10%', marginTop:'3%',marginLeft:'10%', marginRight:'10%',objectFit:'cover'}}>
+      <PageTitle title={`${data[0].title} | The Blog`} />
       <center>
       <div>
       <img src={`data:image/png;base64,${data[0].image}`} style={{maxHeight:'1000px',width:'80%'}}/>

@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { useParams } from "react-router-dom";
-import './BlogTag.css'
-import BlogCard from '../Card/Card'
+import './BlogTag.css';
+import BlogCard from '../Card/Card';
 import NavBar from '../Navbar/Navbar';
 import PageCount from '../Pagination/Pagination';
 import Global from '../../global/variables';
-import Loader from '../utils/Loader'
+import Loader from '../utils/Loader';
+import PageTitle from '../utils/PageTitle';
 
 
 const BlogsTag = () => {
@@ -41,6 +42,7 @@ return(
   { loader ?
     <Loader /> :
     <>
+  <PageTitle title={`${tag} | The Blog`} />
   <div style={{marginLeft:'10%', marginRight:'10%', marginBottom:'10%', marginTop:'3%'}}>
     <center>
       <span className="blog-font" style={{fontSize:"3rem"}}> {tag} </span>
