@@ -60,7 +60,7 @@ const Home = () => {
     <>
     { page == 1 ?
     <div className="container">
-    <img src={`data:image/png;base64,${blog?.image}`} style={{maxHeight:'1000px',width:'100%', cursor:'pointer'}} onClick={() => { navigate(`/blog/${blog._id}`) }}/>
+    <img src={`data:image/png;base64,${blog?.image}`} alt={blog?.title?.substring(0,50)} style={{maxHeight:'1000px',width:'100%', cursor:'pointer'}} onClick={() => { navigate(`/blog/${blog._id}`) }}/>
     <div class="bottom-left">
     <div onClick={() => { navigate(`/blog/${blog._id}`) }} style={{cursor:'pointer'}}>
       <div style={{fontSize:'2rem', float:'left', paddingLeft:10, paddingRight:10, width:'100%', wordWrap:'break-word'}}>{blog?.title?.substring(0,50)}{blog?.title?.length > 50 ? "..." : ""}</div>
